@@ -1,0 +1,25 @@
+package com.saurav.QuestionService.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+public class Question {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Integer id;
+    private String title;
+    private String option1;
+    private String option2;
+    private String option3;
+    private String option4;
+    private String difficultyLevel;
+    private String ans;
+    private String category;
+}
