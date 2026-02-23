@@ -20,7 +20,7 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
 
     public ResponseEntity<?> getAllQuestion() {
-        List<Question> questionsList = questionRepository.findAll();
+        var questionsList = questionRepository.findAll();
         return ResponseEntity.ok(toDto(questionsList));
     }
 
@@ -42,20 +42,20 @@ public class QuestionService {
     }
 
     public ResponseEntity<?> fetchQuestionByType(String category) {
-        List<Question> questionList = questionRepository.findByCategory(category);
+        var questionList = questionRepository.findByCategory(category);
         return ResponseEntity.ok(toDto(questionList));
     }
 
     public ResponseEntity<List<Integer>> getQuestionForQuiz(String category, Integer numQ) {
-        List<Integer> questionList = questionRepository.findRandomQuestionsByCategory(category, numQ);
+        var questionList = questionRepository.findRandomQuestionsByCategory(category, numQ);
         return new ResponseEntity<>(questionList, HttpStatus.OK);
     }
 
     public ResponseEntity<?> fetchQuestionByIds(List<Integer> qIds) {
         List<QuestionResponseDto> questionResponseList = new ArrayList<>();
         for(var id : qIds){
-            Question question = fetchQuestionById(id);
-            QuestionResponseDto dto = QuestionMapper.INSTANCE.toDto(question);
+            var question = fetchQuestionById(id);
+            var dto = QuestionMapper.INSTANCE.toDto(question);
             questionResponseList.add(dto);
         }
         return new ResponseEntity<>(questionResponseList, HttpStatus.OK);
@@ -70,7 +70,7 @@ public class QuestionService {
         List<QuestionResultDto> resultList = new ArrayList<>(responses.size());
 
         for (var response : responses) {
-            String correctAnswer = fetchQuestionById(response.getId()).getAns();
+            var correctAnswer = fetchQuestionById(response.getId()).getAns();
             boolean isCorrect = correctAnswer != null &&
                     correctAnswer.equalsIgnoreCase(response.getResponse());
 
@@ -82,8 +82,7 @@ public class QuestionService {
                     new QuestionResultDto(response.getId(), isCorrect ? 1 : 0)
             );
         }
-        QuestionSubmitResponseDto response =
-                new QuestionSubmitResponseDto(totalMarks, resultList);
+        var response = new QuestionSubmitResponseDto(totalMarks, resultList);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
